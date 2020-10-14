@@ -83,15 +83,15 @@ postMean = posteriorValue$mean
 postVar = posteriorValue$variance
 
 #Plotting the posterior mean
-plotMean = function(mean,var){
-  plot(xGrid, mean, type="p", ylab="f(x)", xlab="x", ylim = c(-2,2))
+plotMean = function(mean,var, title){
+  plot(xGrid, mean, type="p", ylab="f(x)", xlab="x", ylim = c(-2,2), main = title)
   
   #Plotting confidence band
   lines(xGrid, mean - 1.96*sqrt(diag(var)), col = "blue", lwd = 2)
   lines(xGrid, mean + 1.96*sqrt(diag(var)), col = "blue", lwd = 2)
 }
 
-plotMean(postMean,postVar)
+plotMean(postMean,postVar, title = 'x = 0.4, y = 0.719')
 
 #Question3: updating the posterior with observation (-0.6, -0.044)
 
@@ -107,9 +107,9 @@ postMean2 = posteriorValue2$mean
 postVar2 = posteriorValue2$variance
 
 par(mfrow = c(1,2))
-plotMean(postMean2[,1], postVar2)
-plotMean(postMean2[,2], postVar2)
-plotMean(rowMeans(postMean2), postVar2)
+plotMean(postMean2[,1], postVar2, title = 'x = 0.4, y = 0.719')
+plotMean(postMean2[,2], postVar2, title = 'x = -0.6, y = -0.044')
+
 #Question4: The posterior with five observations
 x = c(-1.0,-0.6,-0.2,0.4,0.8)
 y = c(0.768,-0.044,-0.940,0.719,-0.664)
@@ -122,12 +122,9 @@ posteriorValue3 = posteriorGP(X = x,
 postMean3 = posteriorValue3$mean
 postVar3 = posteriorValue3$variance
 
-plot(xGrid, rowMeans(postMean3), type="l", ylab="f(x)", xlab="x", ylim = c(-2.5,2.5))
-
-#Plotting confidence band
-lines(xGrid, rowMeans(postMean3) - 1.96*sqrt(diag(postVar3)), col = "blue", lwd = 2)
-lines(xGrid, rowMeans(postMean3) + 1.96*sqrt(diag(postVar3)), col = "blue", lwd = 2)
-
+for (i in 1:length(x)){
+  plotMean(postMean3[,i],postVar3, title = paste('x = ',x[i], 'y = ',y[i]))
+}
 
 
 
