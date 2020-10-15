@@ -35,7 +35,7 @@ gridPoints <- data.frame(gridPoints)
 names(gridPoints) <- names(trainingData)[1:2]
 probPreds <- predict(GPfitFraud, gridPoints, type="probabilities")
 
-# Plotting for Prob(setosa)
+# Plotting for Prob(Fraud)
 contour(x1,x2,matrix(probPreds[,1],100,byrow = TRUE),
         20,
         xlab = "varWave", 

@@ -15,33 +15,12 @@ SquaredExpKernel <- function(x1,x2,sigmaF=1,l=0.3){
 }
 
 
-# Simulates nSim realizations (function) from a GP with mean m(x) and covariance K(x,x')
-# over a grid of inputs (x)
-SimGP <- function(m = muPrior,K,x,nSim,...){
-  n <- length(x)
-  if (is.numeric(m)) meanVector <- rep(0,n) else meanVector <- m(x)
-  covMat <- K(x,x,...)
-  f <- rmvnorm(nSim, mean = meanVector, sigma = covMat)
-  return(f)
-}
-
-
 #####################Setting the parameters#####################################
 sigmaF = 1
 l = 0.3
 sigmaNoise = 0.1
-muPrior = c(0,0)
 xGrid <- seq(-1,1,length=20)
 nSim = 1
-
-
-fSim <- SimGP(m=muPrior, K=SquaredExpKernel, x=xGrid, nSim, sigmaF, l)
-plot(xGrid, fSim[1,], type="p", ylim = c(-1,1))
-if(nSim>1){
-  for (i in 2:nSim) {
-    lines(xGrid, fSim[i,], type="l")
-  }
-}
 
 
 #Question1:  The posterior function ########################################################
