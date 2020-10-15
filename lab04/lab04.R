@@ -31,17 +31,11 @@ posteriorGP = function(X, y, XStar, sigmaNoise, k){
   
   L = chol(K + sigmaNoise^2*diag(n))
   alpha = solve(t(L),solve(L,y))
-  
-  if (length(XStar)==1){
-    KStar = XStar
-  }
-  else{
-    KStar = k(X,XStar)
-  }
-  
-  FStar = t(KStar)*alpha
+  KStar = k(X,XStar)
+  FStar = t(KStar)%*%alpha
   v = solve(L,KStar)
   VFStar = k(XStar, XStar)-t(v)%*%v
+  
   logP = -0.5*t(y)%*%alpha - sum(log(diag(L))) - (n/2)*log(2*pi)
   
   return(list('mean'=FStar, 'variance'= VFStar, 'logMargLik' = logP))
@@ -83,9 +77,7 @@ posteriorValue2 = posteriorGP(X = x,
 postMean2 = posteriorValue2$mean
 postVar2 = posteriorValue2$variance
 
-par(mfrow = c(1,2))
-plotMean(postMean2[,1], postVar2, title = 'x = 0.4, y = 0.719')
-plotMean(postMean2[,2], postVar2, title = 'x = -0.6, y = -0.044')
+plotMean(postMean2, postVar2, title = 'x = (0.4,-0.6), y =(0.719,-0.044)')
 
 
 #Question4: The posterior with five observations################################
@@ -100,9 +92,8 @@ posteriorValue3 = posteriorGP(X = x,
 postMean3 = posteriorValue3$mean
 postVar3 = posteriorValue3$variance
 
-for (i in 1:length(x)){
-  plotMean(postMean3[,i],postVar3, title = paste('x = ',x[i], ',  y = ',y[i]))
-}
+plotMean(postMean3,postVar3, title = "All X and Y plot")
+
 
 
 #Question5: Repeating with different hyperparameters.

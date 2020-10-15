@@ -73,27 +73,20 @@ nSim = 1
 #Question1:  The posterior function ########################################################
 posteriorGP = function(X, y, XStar, sigmaNoise, k){
   #The algorithm
-  K = k(X, X)
+  K = k(X, X, sigmaF = sigmaF, l = l)
   n = length(X)
   
-  L = chol(K + sigmaNoise^2*diag(n))
+  L = t(chol(K + sigmaNoise^2*diag(n)))
   alpha = solve(t(L),solve(L,y))
-  
-  if (length(XStar)==1){
-    KStar = XStar
-  }
-  else{
-    KStar = k(X,XStar)
-  }
-  
-  FStar = t(KStar)*alpha
+  KStar = k(X,XStar, sigmaF = sigmaF, l = l)
+  FStar = t(KStar)%*%alpha
   v = solve(L,KStar)
-  VFStar = k(XStar, XStar)-t(v)%*%v
+  VFStar = k(XStar, XStar, sigmaF = sigmaF, l = l)-t(v)%*%v
+  
   logP = -0.5*t(y)%*%alpha - sum(log(diag(L))) - (n/2)*log(2*pi)
   
   return(list('mean'=FStar, 'variance'= VFStar, 'logMargLik' = logP))
 }
-
 
 ```
 
@@ -142,8 +135,8 @@ postMean2 = posteriorValue2$mean
 postVar2 = posteriorValue2$variance
 
 par(mfrow = c(1,2))
-plotMean(postMean2[,1], postVar2, title = 'x = 0.4, y = 0.719')
-plotMean(postMean2[,2], postVar2, title = 'x = -0.6, y = -0.044')
+plotMean(postMean2, postVar2, title = 'x = (0.4,-0.6), y =(0.719,-0.044)')
+
 
 
 ```
@@ -166,10 +159,9 @@ posteriorValue3 = posteriorGP(X = x,
 postMean3 = posteriorValue3$mean
 postVar3 = posteriorValue3$variance
 
-par(mfrow=c(1,2))
-for (i in 1:length(x)){
-  plotMean(postMean3[,i],postVar3, title = paste('x = ',x[i], ',  y = ',y[i]))
-}
+
+plotMean(postMean3,postVar3, title = "All X and Y plot")
+
 
 ```
 
@@ -181,7 +173,7 @@ Repeating with different hyperparameters:
 #Question5: Repeating with different hyperparameters.
 
 sigmaF = 1
-L = 1
+l = 1
 posteriorValue4 = posteriorGP(X = x,
                               y = y,
                               XStar = xGrid,
@@ -190,9 +182,7 @@ posteriorValue4 = posteriorGP(X = x,
 postMean4 = posteriorValue4$mean
 postVar4 = posteriorValue4$variance
 
-for (i in 1:length(x)){
-  plotMean(postMean4[,i],postVar4, title = paste('x = ',x[i], ',  y = ',y[i]))
-}
+plotMean(postMean4,postVar4, title = "All X and Y plot (sigmaF = 1, L = 1)")
 
 ```
 
