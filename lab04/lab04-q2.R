@@ -50,9 +50,9 @@ sigmaNoise = sd(polyFit$residuals)
 sigmaNoise
 
 
-plot(scaledTime,data$temp[time], ylim = c(-25,30))
+plot(scaledTime,data$temp[time], ylim = c(-25,35))
 
-# Fit the GP with built in Square expontial kernel (called rbfdot in kernlab)
+# Fit the GP with Square expontial kernel 
 
 MaternFunc = Matern32(sigmaf = 20, ell = 0.2)
 GPfit <- gausspr(scaledTime, data$temp[time], 
@@ -83,11 +83,19 @@ lines(xs, meanPred + 1.96*sqrt(diag(Covf)), col = "green", lwd = 2)
 lines(xs, meanPred - 1.96*sqrt((diag(Covf) + sigmaNoise^2)), col = "brown")
 lines(xs, meanPred + 1.96*sqrt((diag(Covf) + sigmaNoise^2)), col = "brown")
 
-legend('bottomright',
-       legend = c('Post Mean of First Model', 'fStar prob interval', 'fStar pred interval', 'Post Mean of Second Model'),
-       col = c('blue', 'green', 'brown', 'red'),
+legend("bottomright",
+       legend = c('Post Mean Model1', 
+                  'Post Mean Model2'),
+       col = c( 'blue', 'red'),
        lty=1:2, 
        cex=0.8)
+legend("topright",
+       legend = c('prob interval', 
+                  'pred interval'),
+       col = c('green', 'brown'),
+       lty=1:2, 
+       cex=0.8,
+       horiz = TRUE)
 
 
 
@@ -141,3 +149,4 @@ GPfit <- gausspr(scaledTime, data$temp[time],
 meanPred <- predict(GPfit, scaledTime)
 plot(time,data$temp[time], ylim = c(-25,30), main = 'Generalized Model')
 lines(time, meanPred, col="blue", lwd = 2)
+

@@ -36,26 +36,22 @@ names(gridPoints) <- names(trainingData)[1:2]
 probPreds <- predict(GPfitFraud, gridPoints, type="probabilities")
 
 # Plotting for Prob(setosa)
-contour(x1,x2,matrix(probPreds[,1],100,byrow = TRUE), 20, xlab = "varWave", ylab = "skewWave", main = 'Prob(Fraud) - Fraud is blue')
-points(trainingData[trainingData[,5]==1,1],trainingData[trainingData[,5]==1,1],col="blue")
-points(trainingData[trainingData[,5]=='virginica',3],trainingData[trainingData[,5]=='virginica',4],col="blue")
-points(trainingData[trainingData[,5]=='versicolor',3],trainingData[trainingData[,5]=='versicolor',4],col="green")
+contour(x1,x2,matrix(probPreds[,1],100,byrow = TRUE),
+        20,
+        xlab = "varWave", 
+        ylab = "skewWave", 
+        main = 'Prob(Fraud) - Fraud is blue')
+points(trainingData[trainingData[,5]==1,1],trainingData[trainingData[,5]==1,2],col="blue")
+points(trainingData[trainingData[,5]==0,1],trainingData[trainingData[,5]==0,2],col="green")
 
-# Plotting for Prob(Versicolor)
-contour(x1,x2,matrix(probPreds[,2],100,byrow = TRUE), 20, xlab = "Petal.Length", ylab = "Petal.Width", main = 'Prob(Versicolor) - Versicolor is green')
-points(trainingData[trainingData[,5]=='setosa',3],trainingData[trainingData[,5]=='setosa',4],col="red")
-points(trainingData[trainingData[,5]=='virginica',3],trainingData[trainingData[,5]=='virginica',4],col="blue")
-points(trainingData[trainingData[,5]=='versicolor',3],trainingData[trainingData[,5]=='versicolor',4],col="green")
-
-
-
-
-
-
-
-
-
-
+# Plotting for Prob(Non-fraud)
+contour(x1,x2,matrix(probPreds[,2],100,byrow = TRUE),
+        20,
+        xlab = "varWave", 
+        ylab = "skewWave", 
+        main = 'Prob(Non-fraud) - Non-fraud is green')
+points(trainingData[trainingData[,5]==1,1],trainingData[trainingData[,5]==1,2],col="blue")
+points(trainingData[trainingData[,5]==0,1],trainingData[trainingData[,5]==0,2],col="green")
 
 
 #Question2: calculating accuracy for the testing data###########################
