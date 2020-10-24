@@ -278,10 +278,9 @@ If not, what could be done to make the agent learn this ?
 ### Answers:  
 
 - After the first 10 episodes the agent hasn't learned much, it's got knowledge about avoiding the states with negative ones (-1).  
-- After 10000 iterations, even though, the agent's knowledge is very good and it's learned how to reach the goal, but the final greedy policy is not optimal, the agent still isn't sure about how good the actions are for some states i.e (1,3). This might be because of the value of epsilon that decides whether to explore the environment or exploit it, and it could also be because of the number of iterations is only 10000.  
+- After 10000 iterations, the agent has learned how to reach the goal following the optimal path, in some states i.e (1,3) the goodness of some actions was the same, but still the agent was able to pick the correct path to the target state. if we increase the number of iterations the accuracy will increase, but we are satisfied with the current policy and we can say the solution is optimal.
 
-- The agent has learned how to reach to the goal from each state in our grid, it takes one path to the goal and it doesn't slip due the $\beta$ value of 0 that doesn't allow the agent to slip from the path.  
-
+- The agent has learned how to reach to the goal from the state following one paths, it takes one path to the goal and it doesn't slip due the $\beta$ value of 0 that doesn't allow the agent to slip from the path. And if we want the agent to try different paths, then we can increase the value of $\beta$ that allows the agent to slip from the path and try different paths to the target.  
 
 
 
