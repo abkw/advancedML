@@ -241,10 +241,10 @@ q_learning <- function(start_state, epsilon = 0.5, alpha = 0.1, gamma = 0.95,
     #Calculating the final reward
     reward = reward+current_reward
     
-    #Calculating the epsilon_correction
-    epsilon_correction = current_reward + gamma*q_table[new_x,new_y,maximum_action]-q_table[old_x,old_y,action]
+    #Calculating the episode_correction
+    episode_correction = current_reward + gamma*q_table[new_x,new_y,maximum_action]-q_table[old_x,old_y,action]
 
-    q_table[old_x,old_y,action] <<- q_table[old_x,old_y,action]+ alpha*epsilon_correction
+    q_table[old_x,old_y,action] <<- q_table[old_x,old_y,action]+ alpha*episode_correction
     
     start_state = new_state
     if(reward!=0)
